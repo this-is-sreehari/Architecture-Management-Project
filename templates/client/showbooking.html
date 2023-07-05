@@ -1,0 +1,51 @@
+{% extends "client/base.html" %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+
+<h3 align="center">Check Your Appointment</h3>
+<div class="d-flex justify-content-center">
+{% if request.user.is_authenticated %}
+{%csrf_token%}
+<a href= "{% url 'logout' %}" type="button" class="btn btn-success btn-md">
+    Logout, {{ request.user.username }}</a>
+{% endif %}
+</div>
+<hr>
+<div class="container text-center w-50 p-3 my-5 bg-light">
+<form method="GET" action="{% url 'showbooking' %}">
+    {{form|crispy}}
+    <button type="submit">Search</button>
+</form>
+</div>
+<div class="container text-center w-50 p-3 my-5 bg-light">
+{% if items %}
+<h4><tt><u>Project Details</tt></u></h4>
+<br>
+{% if user %}
+<h6><tt>Customer Name : {{ user.name}}</tt> </h6>
+{% else %}
+<h6>no name</h6>
+{% endif %}
+<h6><tt>Place : {{ items.place}}</tt> </h6>
+<h6><tt>Plot Area : {{ items.plot_area}} Cents</tt></h6>
+<h6><tt>House Type Required : {{ items.type}} Storied</tt></h6>
+<h6><tt>Plinth Area : {{ items.sqft}} sqft.</tt></h6>
+<h6><tt>Requirements : {{ items.requirement}}</tt> </h6>
+<h6><tt>Budget : {{ items.budget}} Lakhs</tt></h6>
+<h6><tt>Location link : {{ items.location}}</tt> </h6>
+</div>
+<div class="d-flex justify-content-center">
+    <table>
+    <tr>
+    <td><h5>Are you ready to commit this project : </h5></td>
+    <td><a href= "{% url 'confirm' id=items.proj_id %}" type="button" class="btn btn-success btn-md">Yes</a></td>
+    <td><a href= "{% url 'rejected' id=items.proj_id %}" type="button" class="btn btn-success btn-md">No</a></td>
+    </tr>
+    </table>
+</div>
+{% else %}
+<h6><tt>Type in a valid ID!</tt></h6>
+{% endif %}
+{%endblock%}

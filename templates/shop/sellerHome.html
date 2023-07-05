@@ -1,0 +1,21 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+
+
+<div class=" w-10 col-12 d-flex justify-content-end">
+   
+    <a href= "{% url 'sellerLogout' %}" type="button" class="btn btn-success btn-sm"><b>Logout</b></a>  
+</div>
+<br>
+<div class=" w-10 col-12 d-flex justify-content-center">
+    {% if request.user.is_authenticated %}
+    <h4>Hello,&nbsp;{{ request.user.username }}</h4>&nbsp;
+    {%endif%}
+    <br></div> 
+    <div class=" w-10 col-12 d-flex justify-content-center">
+    <a href= "{% url 'addProduct' %}" type="button" class="btn btn-success btn-sm"><b>Add product</b></a>   
+    </div>
+
+{% endblock%}
+ 

@@ -1,0 +1,21 @@
+{% extends "client/base_1.html" %}
+
+{% block content %}
+
+<div class="border d-flex align-items-center h-100 justify-content-center" style="height:50px">
+    <section>
+        <h1>Customer home</h1>    
+    {% if request.user.is_authenticated %}
+    {%csrf_token%}
+    <p class="text-success">User Logged In</p>
+    <p class="text-success">Username : {{ request.user.username }}</p>
+    <a href= "{% url 'custlogout' %}" type="button" class="btn btn-success btn-lg">Logout</a>
+    <a href= "{% url 'require' name=request.user.username %}" type="button" class="btn btn-success btn-lg">Add Requirements</a>
+    
+    {% else %}
+    <p class="text-danger">User is Not logged in</p>
+     {% endif %}
+    </section>
+</div>
+
+    {%endblock%}

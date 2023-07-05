@@ -1,0 +1,28 @@
+{% extends 'client/base_1.html' %}
+
+
+{% block title %}
+Clients Page
+{%endblock%}
+{% block content %}
+<h1 class="text-center">Our Clients</h1>
+<hr>
+{%for c in clients %}
+<div class="container text-center bg-light">
+<div class="card text-center mx-3 my-3" style="width: 18rem; display:inline-block">
+    <img src="{{c.pic1.url}}" class="card-img-top" alt="...">
+    {% comment %} <img src="{{c.pic2.url}}" class="card-img-top" alt="..."> {% endcomment %}
+    <div class="card-body">
+      <h5 class="card-title">{{ c.c_name }}</h5>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Location : {{ c.loc }}</li>
+        <li class="list-group-item">Manager : {{ c.m_name }}</li>
+        <li class="list-group-item">Mail ID : {{ c.mail }}</li>
+      </ul>
+  </div>
+</div>
+
+{%endfor%}
+
+{% endblock %}

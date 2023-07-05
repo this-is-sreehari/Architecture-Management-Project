@@ -1,0 +1,25 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+<div class=" w-10 col-12 d-flex justify-content-center">
+<h1>All Products</h1>
+
+</div><hr>
+
+{% for p in products %}
+<div class=" w-10 col-12 d-flex justify-content-center">
+    <div class="row row-cols-2">
+<div class="card" style="width: 18rem;">
+    <img src="{{ p.image.url }}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{ p.name }}</h5>
+      <h5 class="card-title">{{ p.price }}&nbsp;₹</h5>
+      <p class="card-text">{{ p.description }}</p>
+      <a href="{% url 'addToCart' product_id=p.id %}" class="btn btn-success">Add To Cart</a>
+    </div>
+  </div>
+</div>
+</div>
+{% endfor %}
+{% endblock%}
+ 

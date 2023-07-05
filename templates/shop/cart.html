@@ -1,0 +1,45 @@
+{% extends 'shop/base1.html' %}
+
+{% block content %}
+<div>
+    <h2 class="text-center">All Items
+    </h2>
+    <hr>
+    {% if cart_items %}
+    <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col" class="h4">Product</th>
+            <th scope="col" class="h4">Quantity</th>
+            <th scope="col" class="h4">Price</th>
+            <th scope="col" class="h4">Actions</th>
+          </tr>
+        </thead>
+        {% for item in cart_items %}       
+        <tbody>
+          <tr>
+            <th scope="row">{{ item.product.name }}</th>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price }}</td>
+            <td>
+                <a href="{% url 'removeFromCart' cart_id=item.id %}">Remove</a>
+            </td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td></td>
+            <td><h5>Total Amount =<h5></td>
+            <td><h5>{{total}} ₹</h5></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="container d-flex justify-content-center align-items-center">
+        
+        <div class="btn btn-success"><a href="{% url 'orders' %}">Book Now</a></div>
+      </div>
+      {% else %}
+      <p class="h4 bg-light text-center">Cart is empty!</p>
+      {% endif %} 
+      
+  </div>
+{% endblock %}

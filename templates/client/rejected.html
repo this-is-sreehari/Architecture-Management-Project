@@ -1,0 +1,17 @@
+{% extends "client/base.html" %}
+{% block content %}
+<div class="h2 text-center">Status</div><hr>
+<div class="d-flex justify-content-center">
+{% if request.user.is_authenticated %}
+<a href= "{% url 'logout' %}" type="button" class="btn btn-success btn-md">
+    Logout, {{ request.user.username }}</a>
+{% endif %}
+</div>
+<div class="container text-center w-50 p-3 my-5 bg-light">
+{% for message in messages %}
+<div class="alert alert-danger" role="alert">
+  {{message}}
+</div>
+</div>
+{% endfor %}
+{% endblock  %}
