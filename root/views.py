@@ -7,6 +7,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 import socket,random
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
 # Create your views here.
 
 from django.http import HttpResponse
@@ -235,7 +236,11 @@ def updateprofile(request):
             form = SearchForm(request.POST)
             if form.is_valid():
                 client_id = form.cleaned_data['Project_ID']
-        cl_up = get_object_or_404(CProfile,cl_id=client_id)
+        try:
+            cl_up = get_object_or_404(CProfile,cl_id=client_id)
+        except Http404:
+            messages.success(request,"The Profile Does Not Exist! Type a valid ID")
+            return render(request,'client/updateprofile.html')
         if request.method == 'POST':    
             upform = UpdateForm(request.POST,instance=cl_up)
             if upform.is_valid():          
@@ -244,8 +249,6 @@ def updateprofile(request):
                 return render(request,'client/updateprofile.html')
     except UnboundLocalError:
         pass
-    except CProfile.DoesNotExist:
-        messages.success(request,"Profile doesnt exist!")
     context = {
         'form':form,
         'upform':upform
