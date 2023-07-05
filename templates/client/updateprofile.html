@@ -1,0 +1,32 @@
+{% extends "client/base.html" %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+{% block content %}
+<h1 class="text-center "><u>Update Profile</u></h1>
+<div class=" w-10 col-12 d-flex justify-content-center">
+    <a href= "{% url 'logout' %}" type="button" class="btn btn-success btn-md">Logout
+    {% if request.user.is_authenticated %}
+    {{ request.user.username }}
+    {%endif%}
+    </a>  
+</div><hr>
+<div class="container text-center w-50 p-3 my-5 bg-light">
+    <form action="" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+              {{message}}
+          </div>
+          {% endfor %}
+        </div>
+        {% csrf_token %}
+        {{form|crispy}}
+        {{upform|crispy}}
+        <br>
+        <button type="submit" class="btn btn-info mb-4">Submit</button>
+    </form>
+    
+    
+</div>
+{% endblock content %}

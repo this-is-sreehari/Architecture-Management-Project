@@ -74,7 +74,8 @@
         <p class="text-success">User Logged In</p>
         <p class="text-success">Username : {{ request.user.username }}</p>
         <a href= "{% url 'logout' %}" type="button" class="btn btn-success btn-lg">Logout</a>
-        <a href= "{% url 'clientprofile' %}" type="button" class="btn btn-success btn-lg">Update</a>
+        <a href= "{% url 'clientprofile' %}" type="button" class="btn btn-success btn-lg">Create Profile</a>
+        <a href= "{% url 'updateprofile' %}" type="button" class="btn btn-success btn-lg">Update Profile</a>
         <a href= "{% url 'showbooking' %}" type="button" class="btn btn-success btn-lg">Check Appointment Request</a>
         
         {% else %}

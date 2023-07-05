@@ -39,7 +39,7 @@
                 </div>
             </div>
         </nav>
-    <div class="text-center"> <h4>Now give a request to any of our client to make an appointment</h4>
+    <div class="text-center"> <h4><u>Now give a request to any of our client to make an appointment</u></h4>
     {% if request.user.is_authenticated %}
 {%csrf_token%}
 <a href= "{% url 'custlogout' %}" type="button" class="btn btn-success btn-md">

@@ -51,4 +51,27 @@ class ReqForm(forms.ModelForm):
         }
         
 class SearchForm(forms.Form):
-    Project_ID = forms.CharField(max_length=10,required=True)
+    Project_ID = forms.CharField(max_length=10,required=True,label='ID')
+    
+
+class UpdateForm(forms.ModelForm):
+    class Meta:
+        model = CProfile
+        fields = ['c_name','loc','m_name','s_year','contact','mail','y_link','pic1','pic2','pic3']
+        labels ={
+            'c_name':'Company Name',
+            'loc':'Location',
+            'm_name':'Manager Name',
+            's_year':'Starting Year',
+            'contact':'Contact Number',
+            'mail':'Mail ID',
+            'y_link':'Youtube Link',
+            'pic1':'Sample Image of Recent Work 1',
+            'pic2':'Sample Image of Recent Work 2',
+            'pic3':'Sample Image of Recent Work 3',
+
+        }
+    
+    
+
+

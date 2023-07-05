@@ -19,5 +19,6 @@ urlpatterns = [
     path('requirements/<str:name>/',views.require,name="require"),
     path('showbooking/',views.showbooking,name="showbooking"),
     path('confirmed/<str:id>/',views.confApp,name="confirm"),
-    path('rejected/<str:id>/',views.rejApp,name="rejected")
+    path('rejected/<str:id>/',views.rejApp,name="rejected"),
+    path('update/',views.updateprofile,name="updateprofile")
 ]

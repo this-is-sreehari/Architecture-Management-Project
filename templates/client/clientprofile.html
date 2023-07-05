@@ -7,14 +7,14 @@ Update profile
 {%endblock%}
 
 {% block content %}
-<h1 class="text-center ">Update Profile</h1>
-<hr>
-<div class=" w-10 col-12 d-flex justify-content-end">
+<h1 class="text-center "><u>Create Profile</u></h1>
+<div class=" w-10 col-12 d-flex justify-content-center">
+    <a href= "{% url 'logout' %}" type="button" class="btn btn-success btn-md">Logout
     {% if request.user.is_authenticated %}
-    <h4>Hello,&nbsp;{{ request.user.username }}</h4>&nbsp;
+    {{ request.user.username }}
     {%endif%}
-    <a href= "{% url 'logout' %}" type="button" class="btn btn-success btn-sm"><b>Logout</b></a>  
-</div>
+    </a>  
+</div><hr>
 <div class="container text-center w-50 p-3 my-5 bg-light">
 <form action="" method="POST" enctype="multipart/form-data">
     <div class="form-group">

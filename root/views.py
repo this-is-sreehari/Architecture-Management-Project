@@ -1,7 +1,7 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import User,auth
-from .forms import CPForm,BookingForm,ReqForm,SearchForm
+from .forms import CPForm,BookingForm,ReqForm,SearchForm,UpdateForm
 from .models import CProfile,Requirements,Booking
 from django.core.mail import send_mail
 from django.conf import settings
@@ -74,7 +74,8 @@ def clientprofile(request):
         form = CPForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request,"Successfully Updated The Profile!")
+            rec = CProfile.objects.latest('id')
+            messages.success(request,f"Successfully Created The Profile! Your ID Is '{rec.id}'.")
             return render(request,'client/clientprofile.html')
     form = CPForm()
     dict_form = {
@@ -225,3 +226,21 @@ def rejApp(request,id):
         messages.error(request,'Thank you & please keep a watch on your inbox for further requests.')
         return render(request,'client/rejected.html')
     
+def updateprofile(request):
+    form = SearchForm()
+    upform = UpdateForm()
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            client_id = form.cleaned_data['Project_ID']
+            rec = get_object_or_404(CProfile,id=client_id)
+        upform = UpdateForm(request.POST,instance=rec)
+        if upform.is_valid():
+            upform.save()
+            messages.success(request,"Updated Successfully!")
+            return render(request,'client/updateprofile.html')
+    context = {
+        'form':form,
+        'upform':upform
+    }
+    return render(request,'client/updateprofile.html',context)
