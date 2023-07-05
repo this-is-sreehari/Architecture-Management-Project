@@ -70,17 +70,18 @@ def signin(request):
         return render(request,'client/signin.html')
 
 def clientprofile(request):
-    if request.method=="POST":
-        form = CPForm(request.POST,request.FILES)
-        if form.is_valid():
-            form.save()
-            rec = CProfile.objects.latest('id')
-            messages.success(request,f"Successfully Created The Profile! Your ID Is '{rec.id}'.")
-            return render(request,'client/clientprofile.html')
-    form = CPForm()
+    random_num = random.randint(1000000,9999999)
+    cl_id = f"CLI{random_num}"
+    form = CPForm(initial={'cl_id':cl_id})
     dict_form = {
         'form':form
     }
+    if request.method=="POST":
+        form = CPForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()           
+            messages.success(request,f"Successfully Created The Profile! Your ID is '{cl_id}'.")
+            return render(request,'client/clientprofile.html') 
     return render(request,'client/clientprofile.html',dict_form)
 
 def clientbooking(request):
@@ -229,16 +230,22 @@ def rejApp(request,id):
 def updateprofile(request):
     form = SearchForm()
     upform = UpdateForm()
-    if request.method == 'POST':
-        form = SearchForm(request.POST)
-        if form.is_valid():
-            client_id = form.cleaned_data['Project_ID']
-            rec = get_object_or_404(CProfile,id=client_id)
-        upform = UpdateForm(request.POST,instance=rec)
-        if upform.is_valid():
-            upform.save()
-            messages.success(request,"Updated Successfully!")
-            return render(request,'client/updateprofile.html')
+    try:
+        if request.method == 'POST':
+            form = SearchForm(request.POST)
+            if form.is_valid():
+                client_id = form.cleaned_data['Project_ID']
+        cl_up = get_object_or_404(CProfile,cl_id=client_id)
+        if request.method == 'POST':    
+            upform = UpdateForm(request.POST,instance=cl_up)
+            if upform.is_valid():          
+                upform.save()
+                messages.success(request,"Updated Successfully!")
+                return render(request,'client/updateprofile.html')
+    except UnboundLocalError:
+        pass
+    except CProfile.DoesNotExist:
+        messages.success(request,"Profile doesnt exist!")
     context = {
         'form':form,
         'upform':upform

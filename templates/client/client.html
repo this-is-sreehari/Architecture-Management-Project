@@ -10,7 +10,8 @@ Clients Page
 {%for c in clients %}
 <div class="container text-center bg-light">
 <div class="card text-center mx-3 my-3" style="width: 18rem; display:inline-block">
-    <img src="{{c.pic1.url}}" class="card-img-top" alt="...">
+    {% if c.pic1 %}
+    <img src="{{c.pic1.url}}" class="card-img-top" alt="...">{% endif %}
     {% comment %} <img src="{{c.pic2.url}}" class="card-img-top" alt="..."> {% endcomment %}
     <div class="card-body">
       <h5 class="card-title">{{ c.c_name }}</h5>

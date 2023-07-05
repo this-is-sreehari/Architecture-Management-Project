@@ -8,6 +8,7 @@ class CPForm(forms.ModelForm):
         model = CProfile
         fields = '__all__'
         labels ={
+            'cl_id':'Client ID',
             'c_name':'Company Name',
             'loc':'Location',
             'm_name':'Manager Name',
@@ -51,7 +52,7 @@ class ReqForm(forms.ModelForm):
         }
         
 class SearchForm(forms.Form):
-    Project_ID = forms.CharField(max_length=10,required=True,label='ID')
+    Project_ID = forms.CharField(max_length=10,label='ID')
     
 
 class UpdateForm(forms.ModelForm):

@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 
 class CProfile(models.Model):
+    cl_id = models.CharField(max_length=10)
     c_name = models.CharField(max_length=255)
     loc = models.CharField(max_length=255)
     m_name = models.CharField(max_length=255)
