@@ -80,8 +80,18 @@ def clientprofile(request):
     if request.method=="POST":
         form = CPForm(request.POST,request.FILES)
         if form.is_valid():
-            form.save()           
-            messages.success(request,f"Successfully Created The Profile! Your ID is '{cl_id}'.")
+            form.save()
+            try:
+                clid = request.POST.get('cl_id')
+                cname = request.POST.get('c_name') 
+                to_mail = request.POST.get('mail')  
+                from_email = settings.EMAIL_HOST_USER 
+                subject = 'Eco Dots: Registration Successfull!'
+                message = f'Dear Manager,\nYour company {cname} is successfully registered & ID is {clid}. Keep the ID safe for future references. Thank you, for being a part of Eco Dots project.'
+                send_mail(subject,message,from_email,[to_mail])
+            except socket.gaierror:
+                pass
+            messages.success(request,f"Successfully Created The Profile! Your ID is '{clid}'.")
             return render(request,'client/clientprofile.html') 
     return render(request,'client/clientprofile.html',dict_form)
 
@@ -94,7 +104,6 @@ def clientbooking(request):
             name = request.POST.get('name')
             cid = request.POST.get('client')
             cmail = CProfile.objects.get(id=cid).mail
-            print(cmail)
             subject = 'Appointment Requested'
             message = f'Dear {name},\nYour project ID is {pid}. Keep the ID safe for future references. Thank you, for being a part of Eco Dots project.'
             from_email = settings.EMAIL_HOST_USER
