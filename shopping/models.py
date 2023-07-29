@@ -76,3 +76,24 @@ class Cart(models.Model):
 
     def __str__(self):
         return self.user
+    
+class Purchase(models.Model):
+    bookid = models.CharField(max_length=9)
+    dtime = models.DateTimeField()
+    name = models.CharField(max_length=30)
+    mob = models.CharField(max_length=10)
+    mail = models.EmailField()
+    add1 = models.CharField(max_length=30)
+    add2 = models.CharField(max_length=30)
+    pin = models.CharField(max_length=6)
+    opt = [
+        ('cod','Cash On Delivery'),
+        ('upi','UPI'),
+        ('nb','Net Banking'),
+    ]
+    payment = models.CharField(max_length=30,choices=opt)
+    amnt = models.CharField(max_length=6)
+
+    def __str__(self):
+        return self.bookid
+

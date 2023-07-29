@@ -96,31 +96,31 @@ def clientprofile(request):
     return render(request,'client/clientprofile.html',dict_form)
 
 def clientbooking(request):
-    pid = Requirements.objects.latest('proj_id').proj_id
     if request.method=="POST":
         form = BookingForm(request.POST)
         try:
+            pid = request.POST.get('proj_id')
             mail = request.POST.get('mail')
             name = request.POST.get('name')
             cid = request.POST.get('client')
             cmail = CProfile.objects.get(id=cid).mail
             subject = 'Appointment Requested'
-            message = f'Dear {name},\nYour project ID is {pid}. Keep the ID safe for future references. Thank you, for being a part of Eco Dots project.'
+            message = f'Dear {name},\nYour appointment request has been sent successfully. The client will reach out to you after going through your project details.\nProject ID : {pid}.\nThank you, for being a part of Eco Dots project.'
             from_email = settings.EMAIL_HOST_USER
             recipient_list = [mail]
             send_mail(subject,message,from_email,recipient_list)
             subject1 = 'Eco Dots: You have a request'
-            message1 = f'An appointment request has been made. Customer name is {name} & ID is {pid}. Check your profile immediatetly.'
+            message1 = f'An appointment request has been made. Customer name is {name} & ID is {pid}. Check your account immediatetly.'
             recipient_list1 = [cmail]
             send_mail(subject1,message1,from_email,recipient_list1)
         except socket.gaierror as e:
                 pass
         if form.is_valid():
             form.save()
-            messages.success(request,"Congrats! Form Successfully Submitted")
+            messages.success(request,"Your appointment request has been sent!")
             return render(request,'client/booking.html')
         
-    form = BookingForm(initial={'proj_id':pid})
+    form = BookingForm()
     dict_form = {
         'form':form
     }
@@ -137,6 +137,7 @@ def custlogin(request):
             pass
         if user is not None:
             auth.login(request, user)
+            messages.success(request,"NB:- New Users should start by adding your Project Requirements. Else proceed to Make Appointment Request by using your existing Requirement ID.")
             return render(request,'client/custhome.html')
         else:
             messages.info(request, 'Invalid Username or Password')
@@ -169,16 +170,25 @@ def custlogout(request):
     return redirect(custlogin)
     
 def require(request,name):
+    u_name = name
     if request.method=='POST':
         form = ReqForm(request.POST)
         if form.is_valid():
+            random_num = random.randint(1000000,9999999)
+            pid = f"PID{random_num}"
+            form.instance.proj_id = pid
             form.save()
-            messages.success(request,"Requirements are saved. Click on above 'Proceed Appointment' button to continue")
-            return render(request,'client/req.html')
-    random_num = random.randint(1000000,9999999)
-    pid = f"PID{random_num}"
-    u_name = name
-    form = ReqForm(initial={'proj_id':pid,'uname':u_name})
+            messages.success(request,"Requirements Saved! Project ID is sent to your Email ID. Proceed to Make Appointment Request as next step.")           
+            try:
+                to_mail = User.objects.get(username=u_name).email
+                sender = settings.EMAIL_HOST_USER
+                subject = "Eco Dots: Requirements Collected!"
+                message = f"Dear {u_name},\nYour Project Details/Requirements are collected. Project ID is {pid}.\nKeep it safe for future references.\nThank You."
+                send_mail(subject,message,sender,[to_mail])
+            except socket.gaierror:
+                pass  
+            return render(request,'client/custhome.html')
+    form = ReqForm(initial={'uname':u_name})
     dict_form = {
         'form':form
     }
@@ -212,8 +222,8 @@ def confApp(request,id):
         mob = CProfile.objects.get(c_name=client).contact
         client_mail = CProfile.objects.get(c_name=client).mail
         try:
-            subject = "Eco Dots: Your request is accepted"
-            message = f'Dear {name},\n{client} is interested in your project and is willing to give you an appointment.Here are the clients details;\nMobile No: +91 {mob}\nMail ID: {client_mail}.\nGive a call anytime between 10 A.M to 3 P.M (IST) or DM on whatsapp(Sooner the better!).'
+            subject = "Eco Dots: Your Request Is Accepted"
+            message = f'Dear {name},\n{client} is interested in your project and would like to discuss more about it in person. Here are the clients details;\nMobile No: +91 {mob}\nMail ID: {client_mail}.\nGive a call anytime between 10 A.M to 5 P.M (IST) or DM on WhatsApp (Sooner the better!).'
             from_email = settings.EMAIL_HOST_USER
             recipient_list = [cust_mail]
             send_mail(subject,message,from_email,recipient_list)           
@@ -228,13 +238,13 @@ def rejApp(request,id):
         cust_mail = Booking.objects.get(proj_id=pid).mail
         try:
             subject = "Eco Dots: Sorry your request is turned down"
-            message = f'Dear {name},\nWe are sorry to inform you that {client} is currently not in a position to take over your project. We wish you luck to find an able client to fulfill your dream project'
+            message = f'Dear {name},\nWe are sorry to inform you that {client} is currently not in a position to take over your project. We wish you luck to find the best client to fulfill your dream project.'
             from_email = settings.EMAIL_HOST_USER
             recipient_list = [cust_mail]
             send_mail(subject,message,from_email,recipient_list)
         except socket.gaierror as e:
           pass
-        messages.error(request,'Thank you & please keep a watch on your inbox for further requests.')
+        messages.error(request,'Thank You & please keep a watch on your inbox for further requests.')
         return render(request,'client/rejected.html')
     
 def updateprofile(request):

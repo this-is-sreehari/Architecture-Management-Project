@@ -43,13 +43,14 @@ class ReqForm(forms.ModelForm):
             'uname':'User Name',
             'proj_id':'Project ID',
             'plot_area':'Plot Area (In Cents)',
-            'type':'Single Storied or Double Storied',
+            'type':'Type of Building',
             'sqft':'Estimated Square Ft.',
             'place':'Place of Customer',
             'location':'Plot Location (Share location as link)',
             'requirement':'Your Requirements',
             'budget':'Budget (in Lakhs INR)',
         }
+        exclude = ['proj_id']
         
 class SearchForm(forms.Form):
     Project_ID = forms.CharField(max_length=10,label='ID')

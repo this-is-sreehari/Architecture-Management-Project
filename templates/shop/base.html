@@ -31,9 +31,15 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Products</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'cart' %}">Cart</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'customerLogin' %}">Customer Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'sellerLogin' %}">Seller Login</a></li>
-
+                        {% if request.user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'custLogout' %}">
+                        Logout, {{ request.user.username }}</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'customerLogin' %}">
+                        Customer Login</a></li>
+                        {%endif%}   
+                        <li class="nav-item"><a class="nav-link" href="{% url 'sellerLogin' %}">
+                        Seller Login</a></li>
                     </ul>
                 </div>
             </div>

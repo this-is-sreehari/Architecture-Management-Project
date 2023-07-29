@@ -1,20 +1,20 @@
-{% extends "client/base_1.html" %}
+{% extends "client/base_3.html" %}
 
 {% block content %}
 
 <div class="border d-flex align-items-center h-100 justify-content-center" style="height:50px">
-    <section>
-        <h1><u>Customer home</u></h1>    
-    {% if request.user.is_authenticated %}
-    {%csrf_token%}
-    <p class="text-success">User Logged In</p>
-    <p class="text-success">Username : {{ request.user.username }}</p>
-    <a href= "{% url 'custlogout' %}" type="button" class="btn btn-success btn-lg">Logout</a>
-    <a href= "{% url 'require' name=request.user.username %}" type="button" class="btn btn-success btn-lg">Add Requirements</a>
-    
-    {% else %}
-    <p class="text-danger">User is Not logged in</p>
-     {% endif %}
+    <section class="text-center">
+        <h1 class="text-center"><u>Customer home</u></h1>
+        <div>
+            {% for message in messages %}
+            <div class="alert alert-danger" role="alert">
+            <i>  {{message}} </i>
+          </div>
+          {% endfor %}
+        </div>      
+    <a href= "{% url 'require' name=request.user.username %}" type="button" class="btn btn-success btn-md">Project Requirements</a>
+    <a href= "{% url 'cbook' %}" type="button" class="btn btn-success btn-md">Make Appointment Request</a>
+   
     </section>
 </div>
 

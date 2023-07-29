@@ -1,0 +1,22 @@
+{% extends 'shop/base.html' %}
+{% load crispy_forms_tags %} 
+{% block content  %}
+<div class="h3 text-center"><u>Place Your Order</u></div>
+<div class="container text-center w-50 p-3 my-5 bg-light">
+    
+    <form action="" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+              {{message}}
+          </div>
+          {% endfor %}
+        </div>
+        {% csrf_token %}
+        {{form|crispy}}
+        <br>
+        <button type="submit" class="btn btn-success mb-4">Submit</button>
+    </form>
+    
+    </div>
+{% endblock  %}

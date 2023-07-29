@@ -22,20 +22,20 @@
             <td>{{ item.quantity }}</td>
             <td>{{ item.price }}</td>
             <td>
-                <a href="{% url 'removeFromCart' cart_id=item.id %}">Remove</a>
+                <a href="{% url 'removeFromCart' cart_id=item.id %}">Remove From Cart</a>
             </td>
           </tr>
           {% endfor %}
           <tr>
             <td></td>
-            <td><h5>Total Amount =<h5></td>
+            <td><h5>Total Amount <h5></td>
             <td><h5>{{total}} ₹</h5></td>
           </tr>
         </tbody>
       </table>
       <div class="container d-flex justify-content-center align-items-center">
         
-        <div class="btn btn-success"><a href="{% url 'orders' %}">Book Now</a></div>
+        <div class="btn btn-success"><a href="{% url 'purchase' sum=total %}">Book Now</a></div>
       </div>
       {% else %}
       <p class="h4 bg-light text-center">Cart is empty!</p>

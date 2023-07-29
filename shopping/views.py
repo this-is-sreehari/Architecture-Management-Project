@@ -1,11 +1,14 @@
 from django.shortcuts import render,redirect
-from .models import Products,Cart
-from .forms import ProductForm
+from .models import Products,Cart,Purchase
+from .forms import ProductForm,PurchaseForm
 from django.contrib.auth.models import User,auth
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Sum
 from django.http import HttpResponse
+from django.core.mail import send_mail
+from django.conf import settings
+import socket,random,datetime
 
 # Create your views here.
 
@@ -31,7 +34,7 @@ def sellerLogin(request):
     else:
         return render(request, 'shop/login.html')
 
-def logout(request):
+def sellerlogout(request):
     auth.logout(request)
     return redirect(sellerLogin)
 
@@ -112,6 +115,10 @@ def customerSignin(request):
                 return redirect(customerLogin)
     else:
         return render(request,'shop/customerSignin.html')
+
+def custlogout(request):
+    auth.logout(request)
+    return redirect(customerLogin)
     
 @login_required
 def addToCart(request,product_id):
@@ -127,7 +134,7 @@ def addToCart(request,product_id):
 @login_required
 def cart(request):
     cart_items = Cart.objects.filter(user = request.user)
-    cart_sum = Cart.objects.aggregate(total=Sum('price'))['total']
+    cart_sum = Cart.objects.filter(user = request.user).aggregate(total=Sum('price'))['total']
     return render(request, 'shop/cart.html', {'cart_items':cart_items,'total':cart_sum})
     
 
@@ -136,8 +143,29 @@ def removeFromCart(request,cart_id):
     cart_item.delete()
     return redirect('cart')
 
-def orders(request):
-    return render(request,'shop/orders.html')
+def purchase(request,sum):
+    amount = sum 
+    rand = random.randint(100000,999999)
+    bid = f'BID{rand}'
+    if request.method == 'POST':
+        form = PurchaseForm(request.POST)
+        if form.is_valid():
+            form.instance.bookid = bid
+            form.instance.dtime = datetime.datetime.now()
+            form.save()
+            try:
+                name=request.POST['name']
+                to_mail=request.POST['mail']
+                sender = settings.EMAIL_HOST_USER
+                sub="Eco Dots: Order placed!"
+                msg=f"Dear {name},\nYour order is successfully placed with Booking ID {bid}. Items will be shipped immediately.\nThank You"
+                send_mail(sub,msg,sender,[to_mail])
+            except socket.gaierror as e:
+                print(e)
+            messages.success(request,"Congrats, Your Order Has Been Placed!")
+            return render(request,'shop/purchase.html')
+    form = PurchaseForm(initial={'amnt':amount})
+    return render(request,'shop/purchase.html',{'form':form})
     #return HttpResponse("Order confirmation page")
 
 

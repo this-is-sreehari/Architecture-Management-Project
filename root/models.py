@@ -33,7 +33,16 @@ class Requirements(models.Model):
     uname = models.CharField(max_length=20)
     proj_id = models.CharField(max_length=10)
     plot_area = models.DecimalField(max_digits=6,decimal_places=2)
-    type = models.CharField(max_length=30)
+    opt =[
+        ('Single_Normal','Single Storied - Normal'),
+        ('Double_Normal','Double Storied - Normal'),
+        ('Modern_Style','Modern Architecture'),
+        ('Traditional_Style','Traditional Kerala Architecture'),
+        ('Colonial_Style','Colonial Architecture'),
+        ('Dutch_Style','Dutch Architecture'),
+        ('Victorian_Style','Victorian Architecture')
+    ]
+    type = models.CharField(max_length=40,choices=opt)
     sqft = models.IntegerField()
     place = models.CharField(max_length=20)
     location = models.URLField(max_length=200)
