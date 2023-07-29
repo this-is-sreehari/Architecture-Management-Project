@@ -13,8 +13,24 @@ import socket,random,datetime
 # Create your views here.
 
 def home(request):
+    try:
+        # items = Cart.objects.filter(user = request.user).values_list('quantity',flat=True).first()
+        items = {
+        'tot_items':0
+        }
+        items = Cart.objects.filter(user = request.user).aggregate(tot_items=Sum('quantity'))       
+        if items is None:
+            items['tot_items']=0
+        products = {
+        'products':Products.objects.all(),
+        'items':items['tot_items']
+        }
+    except TypeError:
+        pass
+    
     products = {
-        'products':Products.objects.all()
+        'products':Products.objects.all(),
+        'items':items['tot_items']
     }
     return render(request,'shop/index.html',products)
 
