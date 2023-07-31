@@ -14,12 +14,13 @@ Clients Page
     <img src="{{c.pic1.url}}" class="card-img-top" alt="...">{% endif %}
     {% comment %} <img src="{{c.pic2.url}}" class="card-img-top" alt="..."> {% endcomment %}
     <div class="card-body">
-      <h5 class="card-title">{{ c.c_name }}</h5>
+      <h4 class="card-title"><tt>{{ c.c_name }}</tt></h4>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">Location : {{ c.loc }}</li>
-        <li class="list-group-item">Manager : {{ c.m_name }}</li>
-        <li class="list-group-item"><a href=" {{c.y_link}} " target="_blank" title="Visit YouTube Channel">YouTube Channel</li></a>
+        <li class="list-group-item"><tt><b>Location : {{ c.loc }}</b></tt></li>
+        <li class="list-group-item"><tt><b>Since : {{ c.s_year }}</b></tt></li>
+        <li class="list-group-item"><a href=" {{c.y_link}} " target="_blank" title="Visit YouTube Channel">
+          <i class="fab fa-youtube ytb"></i></li></a>
       </ul>
   </div>
 </div>
