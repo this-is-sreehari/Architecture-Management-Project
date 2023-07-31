@@ -80,6 +80,7 @@ def addProduct(request):
     if request.method=="POST":
         form = ProductForm(request.POST,request.FILES)
         if form.is_valid():
+            form.instance.user = request.user
             form.save()
             messages.success(request,"Successfully Added The Product!")
             return render(request,'shop/addProduct.html')
@@ -150,6 +151,7 @@ def addToCart(request,product_id):
 @login_required
 def cart(request):
     cart_items = Cart.objects.filter(user = request.user)
+    print(type(cart_items))
     cart_sum = Cart.objects.filter(user = request.user).aggregate(total=Sum('price'))['total']
     return render(request, 'shop/cart.html', {'cart_items':cart_items,'total':cart_sum})
     
@@ -163,11 +165,19 @@ def purchase(request,sum):
     amount = sum 
     rand = random.randint(100000,999999)
     bid = f'BID{rand}'
+    cart_items = Cart.objects.filter(user = request.user)
+    it_lis=[]
+
+    for it in cart_items:
+        val = f'{it.product.name}-{it.quantity}'
+        it_lis.append(val)
+        
     if request.method == 'POST':
         form = PurchaseForm(request.POST)
         if form.is_valid():
             form.instance.bookid = bid
             form.instance.dtime = datetime.datetime.now()
+            form.instance.items = ','.join(it_lis)
             form.save()
             try:
                 name=request.POST['name']

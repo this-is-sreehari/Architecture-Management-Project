@@ -13,6 +13,7 @@ class ProductForm(forms.ModelForm):
             'description':'Enter Description',
             'image':'Upload Image',
         }
+        exclude = ['user']
 
 class PurchaseForm(forms.ModelForm):
     class Meta:
@@ -28,6 +29,6 @@ class PurchaseForm(forms.ModelForm):
             'payment':'Payment Mode',
             'amnt':'Net Amount'
         }
-        exclude = ['bookid','dtime']
+        exclude = ['bookid','dtime','items']
 
         

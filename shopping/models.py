@@ -18,6 +18,7 @@ class Category(models.Model):
 #<-----Products Model------>
 
 class Products(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=60)
     price = models.IntegerField(default=0)
     category = models.ForeignKey(Category,on_delete=models.CASCADE,default=None)
@@ -86,6 +87,7 @@ class Purchase(models.Model):
     add1 = models.CharField(max_length=30)
     add2 = models.CharField(max_length=30)
     pin = models.CharField(max_length=6)
+    items = models.TextField(max_length=500)
     opt = [
         ('cod','Cash On Delivery'),
         ('upi','UPI'),
