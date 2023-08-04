@@ -6,6 +6,12 @@ class CProfile(models.Model):
     cl_id = models.CharField(max_length=10)
     c_name = models.CharField(max_length=255)
     loc = models.CharField(max_length=255)
+    opt = [
+        ('Designing','Designing Project'),
+        ('Constructing','Constructing Project'),
+        ('Designing And Construction','Designing And Construction')
+    ]
+    dom = models.CharField(max_length=50,choices=opt)
     m_name = models.CharField(max_length=255)
     s_year = models.CharField(max_length=10)
     contact = models.CharField(max_length=10)

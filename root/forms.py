@@ -11,6 +11,7 @@ class CPForm(forms.ModelForm):
             'cl_id':'Client ID',
             'c_name':'Company Name',
             'loc':'Location',
+            'dom':'Domain',
             'm_name':'Manager Name',
             's_year':'Starting Year',
             'contact':'Contact Number',
