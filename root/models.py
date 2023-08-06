@@ -7,7 +7,8 @@ class CProfile(models.Model):
     c_name = models.CharField(max_length=255)
     loc = models.CharField(max_length=255)
     opt = [
-        ('Designing','Designing Project'),
+        ('Interior Work','Interior Works'),
+        ('Designing','Project Designing'),
         ('Constructing','Constructing Project'),
         ('Designing And Construction','Designing And Construction')
     ]
