@@ -22,7 +22,7 @@ class CPForm(forms.ModelForm):
             'pic3':'Sample Image of Recent Work 3',
 
         }
-        exclude = ['cl_id']
+        #exclude = ['cl_id']
 
 class BookingForm(forms.ModelForm):
     class Meta:
