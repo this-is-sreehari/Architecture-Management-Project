@@ -76,6 +76,13 @@
 
               <form method="POST" action= "" >
                  {% csrf_token %}
+                 <div class="form-group">
+                  {% for message in messages %}
+                  <div class="alert alert-danger" role="alert">
+                    {{message}}
+                </div>
+                {% endfor %}
+                  </div>
                 <div class="form-outline mb-4">
                   <input name="c_name" type="text" id="" class="form-control form-control-lg" />
                   <label class="form-label" for="c_name">User Name</label>
@@ -113,13 +120,7 @@
 
               </form>
               
-              <div class="form-group">
-              {% for message in messages %}
-              <div class="alert alert-danger" role="alert">
-                {{message}}
-            </div>
-            {% endfor %}
-              </div>
+            
             </div>
           </div>
         </div>

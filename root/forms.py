@@ -29,7 +29,7 @@ class BookingForm(forms.ModelForm):
         model = Booking
         fields = '__all__'
         labels = {
-            'proj_id':'Project ID',
+            'proj_id':'Project ID (Please Check Your Email Inbox)',
             'name':'Name',
             'mobno':'Contact Number',
             'loc' : 'Location',

@@ -17,6 +17,9 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link rel="stylesheet" href="{% static 'css/styles.css' %}">
         <style>
+            body {
+                background-image: url('D:\My Files\Works\img1.jpg')
+            }
             .gradient-custom-3 {
                 /* fallback for old browsers */
                 background: #84fab0;
@@ -39,7 +42,7 @@
                 }
         </style>
     </head>
-    <body id="page-top">
+    <body >
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
             <div class="container">
@@ -66,14 +69,18 @@
        
         <!-- Registration Form -->
         <section>
-        <h3 class="text-center"><u>Home Page</u></h3> </section>
-        <div class="border d-flex align-items-center h-70 justify-content-center" style="height:50px">
-             
-       
-        <section>    
+        <h3 class="text-center">Architect Home Page</h3><hr> 
+
         {% if request.user.is_authenticated %}
+        <div class="h4 text-center"><tt>Welcome, {{request.user}}</tt></div>
+        </section>
+                
+        <div class="border d-flex align-items-center h-70 justify-content-center" style="height:50px" >
+                 
+        <section>    
+       
         {%csrf_token%}
-        <a href= "{% url 'logout' %}" type="button" class="btn btn-success btn-md">Logout, {{ request.user.username }}</a>
+        <a href= "{% url 'logout' %}" type="button" class="btn btn-success btn-md">Logout</a>
         <a href= "{% url 'clientprofile' %}" type="button" class="btn btn-success btn-md">Create Profile</a>
         <a href= "{% url 'updateprofile' %}" type="button" class="btn btn-success btn-md">Update Profile</a>
         <a href= "{% url 'showbooking' %}" type="button" class="btn btn-success btn-md">Check Appointment Request</a>

@@ -58,15 +58,23 @@ def signin(request):
         email = request.POST['email']
         pwd = request.POST['pwd']
         rpwd = request.POST['rpwd']
-        if pwd == rpwd:
-            if User.objects.filter(username=c_name).exists():
-                messages.info(request, 'username already exist')
-                return redirect(signin)
+        try:
+
+            if pwd == rpwd:
+                if User.objects.filter(username=c_name).exists():
+                    messages.info(request, 'Username already exist')
+                    return redirect(signin)
+                else:
+                    user = User.objects.create_user(username=c_name,password=pwd,email=email)
+                    user.set_password(pwd)
+                    user.save()
+                    return redirect(login)
             else:
-                user = User.objects.create_user(username=c_name,password=pwd,email=email)
-                user.set_password(pwd)
-                user.save()
-                return redirect(login)
+                messages.info(request, 'Password not matching')
+                return redirect(signin)
+        except ValueError:
+            pass
+
     else:
         return render(request,'client/signin.html')
 

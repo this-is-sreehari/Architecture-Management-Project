@@ -6,14 +6,14 @@
 <div class=" w-10 col-12 d-flex justify-content-end">
    
 </div>
-<br>
+<br><div class="h3 text-center">Seller Home Page</div><hr>
 <div class=" w-10 col-12 d-flex justify-content-center">
     {% if request.user.is_authenticated %}
-    <h4>Hello,&nbsp;{{ request.user.username }}</h4>&nbsp;
+    <h5>Hello,{{ request.user.username }}</h5>&nbsp;
     {%endif%}
     <br></div> 
     <div class=" w-10 col-12 d-flex justify-content-center">
-    <a href= "{% url 'addProduct' %}" type="button" class="btn btn-success btn-sm"><b>Add product</b></a>   
+    <a href= "{% url 'addProduct' %}" type="button" class="btn btn-success btn-md"><b>Add product</b></a>   
     </div>
 
 {% endblock%}
